@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import com.alex.photogallery.R
 import com.alex.photogallery.view.main.MainView
 import com.alex.photogallery.view.main.fragments.favorites.FavoritesFragment
-import com.alex.photogallery.view.main.fragments.images.ImagesFragment
+import com.alex.photogallery.view.main.fragments.gallery.GalleryFragment
 import com.alex.photogallery.view.main.fragments.settings.SettingsFragment
 
 class MainPresenterImpl(private var mainView: MainView):MainPresenter {
@@ -23,7 +23,7 @@ class MainPresenterImpl(private var mainView: MainView):MainPresenter {
                 fragmentIndex = 0
             }
             R.id.navigationGallery->{
-                fragment = ImagesFragment(this)
+                fragment = GalleryFragment(this)
                 fragmentIndex = 1
             }
             R.id.navigationSettings->{
