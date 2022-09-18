@@ -8,5 +8,6 @@ interface GalleryView {
     fun getContext():Context
     fun getFragmentView():View
     fun getImagesHolder():Koloda
+    fun onImagesLoaded()
 
 }

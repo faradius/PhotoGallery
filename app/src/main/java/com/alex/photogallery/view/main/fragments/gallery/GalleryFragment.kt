@@ -27,7 +27,7 @@ class GalleryFragment(var mainPresenter: MainPresenter) : Fragment(),GalleryView
         var view = inflater.inflate(R.layout.fragment_images, container, false)
         binding = FragmentImagesBinding.bind(view)
         fragmentView = view
-        mainPresenter.fragmentWasLoaded()
+
 
         galleryPresenter.configureView()
 
@@ -44,5 +44,9 @@ class GalleryFragment(var mainPresenter: MainPresenter) : Fragment(),GalleryView
 
     override fun getImagesHolder(): Koloda {
         return binding.imagesHolder
+    }
+
+    override fun onImagesLoaded() {
+        mainPresenter.fragmentWasLoaded()
     }
 }
