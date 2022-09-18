@@ -11,7 +11,7 @@ import com.alex.photogallery.databinding.ActivityMainBinding
 import com.alex.photogallery.presenter.main.MainPresenter
 import com.alex.photogallery.presenter.main.MainPresenterImpl
 
-class MainActivity : AppCompatActivity(), Main {
+class MainActivity : AppCompatActivity(), MainView {
 
     lateinit var binding: ActivityMainBinding
     private var mainPresenter:MainPresenter=MainPresenterImpl(this)

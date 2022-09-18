@@ -4,15 +4,15 @@ import android.os.Handler
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import com.alex.photogallery.R
-import com.alex.photogallery.view.main.Main
+import com.alex.photogallery.view.main.MainView
 import com.alex.photogallery.view.main.fragments.favorites.FavoritesFragment
 import com.alex.photogallery.view.main.fragments.images.ImagesFragment
 import com.alex.photogallery.view.main.fragments.settings.SettingsFragment
 
-class MainPresenterImpl(private var main: Main):MainPresenter {
+class MainPresenterImpl(private var mainView: MainView):MainPresenter {
     override fun onBottomClick(menuItem: MenuItem) {
 
-        main.showProgressBar()
+        mainView.showProgressBar()
 
         var fragment:Fragment? = null
         var fragmentIndex = 0
@@ -33,20 +33,20 @@ class MainPresenterImpl(private var main: Main):MainPresenter {
         }
 
         if (fragment!=null){
-            main.showFragment(fragment,fragmentIndex)
+            mainView.showFragment(fragment,fragmentIndex)
         }
 
     }
 
     override fun fragmentWasLoaded() {
         Handler().postDelayed({
-            main.hideProgressBar()
-            main.showFrame()
+            mainView.hideProgressBar()
+            mainView.showFrame()
         },500)
     }
 
     override fun configureView() {
         var fragment = FavoritesFragment(this)
-        main.showFragment(fragment,0)
+        mainView.showFragment(fragment,0)
     }
 }
