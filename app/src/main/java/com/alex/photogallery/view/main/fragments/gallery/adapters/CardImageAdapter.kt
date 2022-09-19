@@ -44,8 +44,8 @@ class CardImageAdapter(val context: Context, val data:ArrayList<ImageData>):Base
         private val binding = ItemCardImageBinding.bind(view)
 
         internal fun binData(context: Context,data: ImageData){
-            binding.imageNameTextView.text = data.imageName
-            Glide.with(context).load(data.imageResId).into(binding.imageHolderView)
+                binding.imageNameTextView.text = data.imageName
+                Glide.with(context).load(data.imageUrl).into(binding.imageHolderView)
         }
     }
 }
