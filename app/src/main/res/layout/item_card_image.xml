@@ -53,6 +53,7 @@
             android:orientation="horizontal">
 
             <ImageButton
+                android:id="@+id/likeButton"
                 android:layout_width="?attr/actionBarSize"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/selectableItemBackgroundBorderless"
@@ -62,6 +63,7 @@
 
 
             <ImageButton
+                android:id="@+id/shareButton"
                 android:layout_width="?attr/actionBarSize"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/selectableItemBackgroundBorderless"

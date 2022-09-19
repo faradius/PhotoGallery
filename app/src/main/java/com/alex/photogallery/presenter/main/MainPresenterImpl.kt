@@ -10,7 +10,14 @@ import com.alex.photogallery.view.main.fragments.gallery.GalleryFragment
 import com.alex.photogallery.view.main.fragments.settings.SettingsFragment
 
 class MainPresenterImpl(private var mainView: MainView):MainPresenter {
+
+    private var currentIndex=0
+    private var fragmentIsLoading = false
+
     override fun onBottomClick(menuItem: MenuItem) {
+        if (fragmentIsLoading)return
+
+        fragmentIsLoading=true
 
         mainView.showProgressBar()
 
@@ -32,9 +39,17 @@ class MainPresenterImpl(private var mainView: MainView):MainPresenter {
             }
         }
 
-        if (fragment!=null){
+        if (fragment!=null&&currentIndex!=fragmentIndex){
+
             mainView.showFragment(fragment,fragmentIndex)
+
+        }else if (currentIndex==fragmentIndex){
+
+            mainView.hideProgressBar()
+            fragmentIsLoading=false
         }
+
+        currentIndex=fragmentIndex
 
     }
 
@@ -42,6 +57,7 @@ class MainPresenterImpl(private var mainView: MainView):MainPresenter {
         Handler().postDelayed({
             mainView.hideProgressBar()
             mainView.showFrame()
+            fragmentIsLoading=false
         },500)
     }
 

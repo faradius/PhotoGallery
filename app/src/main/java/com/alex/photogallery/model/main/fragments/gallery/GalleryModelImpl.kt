@@ -10,6 +10,11 @@ import retrofit2.Call
 import retrofit2.Response
 import android.os.Handler
 import com.alex.photogallery.R
+import com.alex.photogallery.persistence.sqllite.SqlLiteDatabaseManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class GalleryModelImpl(private var galleryPresenter: GalleryPresenter):GalleryModel {
@@ -19,24 +24,43 @@ class GalleryModelImpl(private var galleryPresenter: GalleryPresenter):GalleryMo
 
         val requestCall = webApi.getImages()
 
-        requestCall.enqueue(object: retrofit2.Callback<ImagesServiceResponse>{
-            override fun onResponse(
-                call: Call<ImagesServiceResponse>,
-                httpResponse: Response<ImagesServiceResponse>
-            ) {
-                var responseImages=httpResponse.body()
 
-                if (responseImages!=null){
-                    galleryPresenter.onServerResponse(responseImages.images as ArrayList<ImageData>)
+            requestCall.enqueue(object: retrofit2.Callback<ImagesServiceResponse>{
+                override fun onResponse(
+                    call: Call<ImagesServiceResponse>,
+                    httpResponse: Response<ImagesServiceResponse>
+                ) {
+                    var responseImages=httpResponse.body()
+
+                    if (responseImages!=null){
+                        GlobalScope.launch(Dispatchers.IO) {
+                            for (i in 0 until responseImages.images.size) {
+                                var dbManager =
+                                    SqlLiteDatabaseManager.getDatabase(galleryPresenter.getContext())
+                                var favoriteImage = dbManager.getFavoriteImageDAO()
+                                    .getFavoriteImage(responseImages.images[i].imageId)
+                                if (favoriteImage != null) {
+                                    responseImages.images[i].hasUserLike = true
+                                }
+
+                            }
+                            withContext(Dispatchers.Main){
+                                galleryPresenter.onServerResponse(responseImages.images as ArrayList<ImageData>)
+                            }
+
+                        }
+                    }
+
                 }
 
-            }
+                override fun onFailure(call: Call<ImagesServiceResponse>, t: Throwable) {
 
-            override fun onFailure(call: Call<ImagesServiceResponse>, t: Throwable) {
+                }
 
-            }
+            })
 
-        })
+
+
 
 
 

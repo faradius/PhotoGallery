@@ -1,5 +1,6 @@
 package com.alex.photogallery.presenter.main.fragments.gallery
 
+import android.content.Context
 import com.alex.photogallery.model.main.fragments.gallery.GalleryModel
 import com.alex.photogallery.model.main.fragments.gallery.GalleryModelImpl
 import com.alex.photogallery.persistence.entities.ImageData
@@ -12,6 +13,10 @@ class GalleryPresenterImpl(private var galleryView: GalleryView):GalleryPresente
 
     override fun configureView() {
         galleryModel.getImagesFromServer()
+    }
+
+    override fun getContext(): Context {
+        return galleryView.getContext()
     }
 
     override fun onServerResponse(images: ArrayList<ImageData>) {
