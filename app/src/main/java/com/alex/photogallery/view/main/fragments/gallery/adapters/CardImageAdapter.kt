@@ -50,10 +50,14 @@ class CardImageAdapter(val context: Context, val data:ArrayList<ImageData>):Base
 
         internal fun binData(context: Context,data: ImageData){
                 binding.imageNameTextView.text = data.imageName
-                if (data.hasUserLike){
+                var status = data.hasUserLike
+
+                if (status){
                     binding.likeButton.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+
                 }else{
                     binding.likeButton.setColorFilter(ContextCompat.getColor(context, R.color.grey_40))
+
                 }
 
                 binding.shareButton.setOnClickListener {
@@ -68,12 +72,18 @@ class CardImageAdapter(val context: Context, val data:ArrayList<ImageData>):Base
                     }
                 }
 
+
                 binding.likeButton.setOnClickListener {
                     FavoriteImagesDbManager.saveFavoriteImage(context, FavoriteImageData(data)){
                         Log.d("TAG", "Base de datos terminado")
-                        binding.likeButton.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+                        if (!status){
+                            binding.likeButton.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+                            status = true
+                        }else{
+                            binding.likeButton.setColorFilter(ContextCompat.getColor(context, R.color.grey_40))
+                            status = false
+                        }
                     }
-
                 }
 
                 Glide.with(context).load(data.imageUrl).into(binding.imageHolderView)
