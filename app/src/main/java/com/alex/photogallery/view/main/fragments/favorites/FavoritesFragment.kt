@@ -47,4 +47,8 @@ class FavoritesFragment(var mainPresenter: MainPresenter) : Fragment(),Favorites
         return binding.favoritesList
     }
 
+    override fun getFragmentLayoutInflater(): LayoutInflater {
+        return requireActivity().layoutInflater
+    }
+
 }
