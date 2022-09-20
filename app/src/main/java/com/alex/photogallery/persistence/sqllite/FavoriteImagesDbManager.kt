@@ -12,6 +12,19 @@ import kotlinx.coroutines.withContext
 
 object FavoriteImagesDbManager {
 
+    fun getFavoriteImages(context: Context, listener:(ArrayList<FavoriteImageData>)->Unit){
+        GlobalScope.launch(Dispatchers.IO) {
+            var dbManager = SqlLiteDatabaseManager.getDatabase(context).getFavoriteImageDAO()
+
+            var favoriteImages = dbManager.getFavoriteImages()
+
+            withContext(Dispatchers.Main){
+                Log.d("TAG", "Imagenes Cargadas")
+                listener(favoriteImages as ArrayList<FavoriteImageData>)
+            }
+        }
+    }
+
     fun saveFavoriteImage(context: Context, favoriteImage:FavoriteImageData, listener:()->Unit){
 
         GlobalScope.launch(Dispatchers.IO){
